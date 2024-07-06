@@ -5,7 +5,7 @@ export default class Spinnerr extends Component {
     return (
       <div>
         <div className="text-center my-10">
-            <div className="spinner-border" role="status">
+            <div className={`spinner-border text-${this.props.mode==="dark"?"white":"black"}`} role="status">
                 <span className="visually-hidden">Loading...</span>
             </div>
             </div>

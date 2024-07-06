@@ -11,17 +11,21 @@ export class News extends Component {
     pageSize:PropTypes.number,
     catagory:PropTypes.string
   }
-constructor(){
-  super();
+  capatalize=(string)=>{
+    return string[0].toUpperCase()+string.slice(1);
+  }
+constructor(props){
+  super(props);
   this.state={
     articles:[],
     loading:false,
     page:1
   }
+  document.title=`${this.capatalize(this.props.catagory)}-TSP`;
 }
 async componentDidMount(){
   this.setState({loading:true})
-  let url= await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.catagory}&apiKey=c58cb95745ca4eb5b7aceaaccc5b4e53&page=1&pageSize=${this.props.pageSize}`);
+  let url= await fetch(``);
   let data= await url.json();
   this.setState({articles:data.articles, 
     totalResults:data.totalResults,
@@ -29,7 +33,7 @@ async componentDidMount(){
 }
 handlePreviousPage= async()=>{
   this.setState({loading:true})
-  let url= await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.catagory}&apiKey=c58cb95745ca4eb5b7aceaaccc5b4e53&page=${this.state.page-1}&pageSize=${this.props.pageSize}`);
+  let url= await fetch(``);
   let data= await url.json();
   this.setState({articles:data.articles,
     page:this.state.page-1,
@@ -41,7 +45,7 @@ handleNextPage=async()=>{
   }
     else{
     this.setState({loading:true})
-    let url= await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.catagory}&apiKey=c58cb95745ca4eb5b7aceaaccc5b4e53&page=${this.state.page+1}&pageSize=${this.props.pageSize}`);
+    let url= await fetch(``);
     let data= await url.json();
     this.setState({articles:data.articles,
       page:this.state.page+1,
@@ -52,19 +56,19 @@ handleNextPage=async()=>{
   render() {
     return (
         <div className='container my-3'>
-          <h1 className='text-center' style={{margin:"35px 0"}}>Top-head lines of News</h1>
-          {this.state.loading&&<Spinnerr/>}
+          <h1 className='text-center' style={{margin:"35px 0", color:this.props.mode==='dark'?'white':'black'}}>{`TSP - Top ${this.capatalize(this.props.catagory)} Headlines`}</h1>
+          {this.state.loading&&<Spinnerr mode={this.props.mode}/>}
           <div className='row'>
             {this.state.articles.map((element)=>{
             return<div className='col-md-4' key={element.url}>
-              <NewsItems title={element.title?element.title:""} description={element.description?element.description:""} imageUrl={element.urlToImage}
+              <NewsItems mode={this.props.mode}title={element.title?element.title:""} description={element.description?element.description:""} imageUrl={element.urlToImage}
               newsURL={element.url} author={element.author} date={element.publishedAt}/>
             </div>
             })}
           </div>
           <div className='container d-flex justify-content-between'>
-          <button type="button" disabled={this.state.page<=1}className="btn btn-primary " onClick={this.handlePreviousPage}>&#8592; Previous</button>
-          <button type="button" disabled={this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)}className="btn btn-primary " onClick={this.handleNextPage}>Next  &#8594;</button>
+          <button type="button" disabled={this.state.page<=1} className={`btn btn-${this.props.mode==="dark"?"secondary":"primary"}`} onClick={this.handlePreviousPage}>&#8592; Previous</button>
+          <button type="button" disabled={this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)} className={`btn btn-${this.props.mode==="dark"?"secondary":"primary"}`} onClick={this.handleNextPage}>Next  &#8594;</button>
           </div>
         </div> 
     )

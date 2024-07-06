@@ -5,21 +5,26 @@ import News from './components/News';
 import { BrowserRouter, Routes , Route  } from 'react-router-dom';
 export default class App extends Component {
   pageSize=9;
+
   constructor(props){
     super(props);
     this.state={
       mode:"light"}
+      // document.title=`${this.props.catagory}-TSP`
   }
+
   toggleMode = () => {
-    // this.setState({mode:"dark"});
-    // document.body.style.backgroundColor="black";
-    console.log("click ");
+    this.setState((prevState) => ({
+      mode: prevState.mode === "light" ? "dark" : "light"
+    }));
+    document.body.style.backgroundColor = this.state.mode === "light" ? "#000000": "white";
   };
+
   render() {
     return (      
         <div>
           <BrowserRouter>
-         <Navbar mode={this.state.mode} tm={this.toogleMode}/> 
+         <Navbar mode={this.state.mode} tm={this.toggleMode}/> 
          <Routes>
           <Route exact path='/' element={<News mode={this.state.mode}key='home' pageSize={this.pageSize} catagory="general"/>}/>
           <Route exact path='/business' element={<News mode={this.state.mode}key='business' pageSize={this.pageSize} catagory="business"/>}/>
