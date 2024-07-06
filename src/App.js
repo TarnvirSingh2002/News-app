@@ -1,25 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React, { Component } from 'react'
+import Navbar from './components/Navbar';
+import News from './components/News';
+import { BrowserRouter, Routes , Route  } from 'react-router-dom';
+export default class App extends Component {
+  pageSize=9;
+  constructor(props){
+    super(props);
+    this.state={
+      mode:"light"}
+  }
+  toggleMode = () => {
+    // this.setState({mode:"dark"});
+    // document.body.style.backgroundColor="black";
+    console.log("click ");
+  };
+  render() {
+    return (      
+        <div>
+          <BrowserRouter>
+         <Navbar mode={this.state.mode} tm={this.toogleMode}/> 
+         <Routes>
+          <Route exact path='/' element={<News mode={this.state.mode}key='home' pageSize={this.pageSize} catagory="general"/>}/>
+          <Route exact path='/business' element={<News mode={this.state.mode}key='business' pageSize={this.pageSize} catagory="business"/>}/>
+          <Route exact path='/entertainment' element={<News mode={this.state.mode}pageSize={this.pageSize} key='entertainment' catagory="entertainment"/>}/>
+          <Route exact path='/health' element={<News mode={this.state.mode}key='health' pageSize={this.pageSize} catagory="health"/>}/>
+          <Route exact path='/science' element={<News mode={this.state.mode}key='science' pageSize={this.pageSize} catagory="science"/>}/>
+          <Route exact path='/sports' element={<News mode={this.state.mode}key='sports' pageSize={this.pageSize} catagory="sports"/>}/>
+          <Route exact path='/technology' element={<News mode={this.state.mode}key='technology' pageSize={this.pageSize} catagory="technology"/>}/>
+         </Routes>
+         </BrowserRouter>
+        </div>
+    )
+  }
 }
-
-export default App;
