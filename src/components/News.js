@@ -75,7 +75,7 @@ export class News extends Component {
   render() {
     return (
       <>
-        <h1 className='text-center' style={{ margin: "35px 0", color: this.props.mode === 'dark' ? 'white' : 'black' }}>{`TSP - Top ${this.capatalize(this.props.catagory)} Headlines`}</h1>
+        <h1 className='text-center' style={{ margin: "90px 0 35px 0", color: this.props.mode === 'dark' ? 'white' : 'black' }}>{`TSP - Top ${this.capatalize(this.props.catagory)} Headlines`}</h1>
         {this.state.loading&&<Spinnerr mode={this.props.mode}/>}
         <InfiniteScroll
           style={{ overflowY: 'hidden' }}
